@@ -73,5 +73,6 @@ int main()
 	CLIENT_ID cid = { 0 };
 	cid.UniqueThread = (PVOID)GetCurrentThreadId();
 	ntOpenThread(&h, 0, NULL, &cid);
+	OutputDebugString("this is only for test");
 	return 0;
 }
