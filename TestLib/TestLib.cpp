@@ -74,5 +74,6 @@ int main()
 	cid.UniqueThread = (PVOID)GetCurrentThreadId();
 	ntOpenThread(&h, 0, NULL, &cid);
 	OutputDebugString("this is only for test");
+	OutputDebugString("this is only for test2");
 	return 0;
 }
