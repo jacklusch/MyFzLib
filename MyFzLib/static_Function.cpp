@@ -59,6 +59,72 @@ void ConfigChar(char* szIdecode)//把特征码中的??转为00
 
 }
 
+FindArray Fun_FindIdent(void * szSource, DWORD dwSearchSize, char * szIdent, DWORD dwCout)
+{
+	//以前的调用例程
+	//				//取出和一段和特征码长度相同的区域来进行逐字节比较,遇到??翻译成00默 5
+	//	char idetecode[] = "55660a72??eb";
+	//	byte  szsouce[] = { 0x55,0x66,0x0a,0x72,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x75,0x88,0x90,0x55,0x66,0x0a,0x72,0x75,0xeb,0x08 };
+	//	ConfigChar(idetecode);
+	//	int ndsouce = sizeof(szsouce);
+	//	int ndcodelen = strlen(idetecode);
+	//	int requierlen = ndcodelen /2;
+	//	byte * TraceBuff = new byte(requierlen);
+	//	memset(TraceBuff, 0, requierlen);
+	//	StrToHex(TraceBuff, idetecode, requierlen);
+	//	DWORD dwAddr = 0;
+	//	dwAddr = SearchChinStream((byte*)szsouce, TraceBuff, requierlen, ndsouce);
+	
+	FindArray tmpArray;
+	MyFindRecod TmpRecode;
+	tmpArray.clear();
+	//必要的参数检查
+	if (szSource==NULL|| dwSearchSize==0|| szIdent==NULL)
+	{
+		return tmpArray;
+	}
+	int ndStr = strlen(szIdent);
+	if (ndStr%2!=0)
+	{
+		//
+		DbgPrtA("wjj 特征码必须是可被2整除的");
+		return tmpArray;
+	}
+	//BYTE* FindSouce = (BYTE*)szSource;
+	DWORD dwStartaddr = (DWORD)szSource;
+	int ndcodelen = strlen(szIdent);
+	ConfigChar(szIdent);//替换通配符
+	int requierlen = ndcodelen /2;
+	BYTE * TraceBuff = new BYTE(requierlen);//申请内存存放转换后的特征码
+	memset(TraceBuff, 0, requierlen);
+	StrToHex(TraceBuff, szIdent, requierlen);//转换为16进制
+	DWORD dwEndAddr = (DWORD)szSource + dwSearchSize; //结束地址
+	DWORD dwTcout = 0; //匹配计次
+	DWORD dwremainder = dwEndAddr - dwStartaddr;//剩余字节数
+	while (dwStartaddr>=dwremainder)
+	{
+		dwremainder = dwEndAddr - dwStartaddr;//剩余字节数重新赋值
+		TmpRecode = { 0 };
+		if (dwTcout== dwCout)
+		{
+			break;
+		}
+		if (isEqueByte((BYTE*)dwStartaddr,TraceBuff,requierlen))
+		{
+			//如果匹配成功了
+			TmpRecode.dwAddr = dwStartaddr;
+			dwTcout++;
+			TmpRecode.ndNum = dwTcout;//先累加保证下标从1开始
+			tmpArray.push_back(TmpRecode);
+			dwStartaddr += ndcodelen; 
+			continue;
+		}
+		dwStartaddr++;
+	}
+	delete[] TraceBuff;
+	return tmpArray;
+}
+
 //自己实现的判断2段2进制串是否相等,逐字节比较,统计相同个数是否等于传入的长度,如果特征码中某个字节等于0 自动默认为相等
 bool isEqueByte(BYTE* szSource, BYTE* szIdecode, DWORD dwlen)
 {

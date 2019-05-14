@@ -24,12 +24,51 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="static_Function.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="disasm-lib\cpu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="disasm-lib\disasm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="disasm-lib\disasm_x86.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="disasm-lib\disasm_x86_tables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="disasm-lib\misc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mhook-lib\mhook.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TestLib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="static_Function.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="disasm-lib\cpu.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="disasm-lib\disasm.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="disasm-lib\disasm_x86.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="disasm-lib\misc.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mhook-lib\mhook.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
